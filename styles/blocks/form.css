@@ -72,3 +72,14 @@
 .form__btn:hover {
     background: var(--accent-color);
 }
+
+@media (max-width: 500px) {
+    .form {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    #img-link {
+        grid-column: 1;
+        grid-row: 4;
+    }
+}

@@ -16,23 +16,26 @@ form.addEventListener("submit", async (e) => {
       id = generateId();
     }
   } else id = editId;
+  if (excludeIds.includes(+id))
+    alert("Данного котика нельзя редактировать!!!")
+  else {
+    const data = { id };
+    [...form.elements].forEach((input) => {
+      if (input.type === 'submit') return;
+      if (input.type !== 'checkbox') data[input.name] = input.value;
+      if (input.type === 'checkbox') data[input.name] = input.checked;
+    });
 
-  const data = { id };
-  [...form.elements].forEach((input) => {
-    if (input.type === 'submit') return;
-    if (input.type !== 'checkbox') data[input.name] = input.value;
-    if (input.type === 'checkbox') data[input.name] = input.checked;
-  });
+    if (editId) await editCat(id, data)
+    else await addCat(data);
 
-  if (editId) await editCat(id, data)
-  else await addCat(data);
+    let catCard = template.content.cloneNode(true);
+    if (editId)
+      catCard = document.querySelector(`[data-id="${id}"]`).parentElement;
 
-  let catCard = template.content.cloneNode(true);
-  if (editId)
-    catCard = document.querySelector(`[data-id="${id}"]`).parentElement;
-
-  const cat = await getCatById(id);
-  addCard(catCard, cat, !!editId);
+    const cat = await getCatById(id);
+    addCard(catCard, cat, !!editId);
+  }
 
   handleClose();
 })

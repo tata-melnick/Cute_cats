@@ -26,6 +26,7 @@ const addCard = (component, cat, isEdit) => {
     } else alert("Этого котика удалить нельзя!!!");
   })
   if (cat.favorite) favorite.style.display = "block";
+  else favorite.style.display = "none";
   image.src = cat.image;
   name.innerText = cat.name;
   if (!isEdit) container.append(component);
