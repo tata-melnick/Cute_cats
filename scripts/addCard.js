@@ -1,5 +1,6 @@
 const template = document.getElementById("card-template");
 const container = document.querySelector(".cards");
+const excludeIds = [106423, 208845, 239745, 256724, 315423, 428578, 507916, 852367];
 
 const addCard = (component, cat, isEdit) => {
   const image = component.querySelector(".card__image");
@@ -18,10 +19,11 @@ const addCard = (component, cat, isEdit) => {
   })
   basket.addEventListener("click", async (e) => {
     e.preventDefault();
-    await deleteCat(btn.dataset.id);
-
-    const removedComponent = document.querySelector(`[data-id="${btn.dataset.id}"]`).parentElement;
-    removedComponent.remove();
+    if (!excludeIds.includes(+btn.dataset.id)) {
+      await deleteCat(btn.dataset.id);
+      const removedComponent = document.querySelector(`[data-id="${btn.dataset.id}"]`).parentElement;
+      removedComponent.remove();
+    } else alert("Этого котика удалить нельзя!!!");
   })
   if (cat.favorite) favorite.style.display = "block";
   image.src = cat.image;
@@ -37,14 +39,3 @@ const addCard = (component, cat, isEdit) => {
   });
 })();
 
-/*
-interface ICat {
-  age: number;
-  description: string;
-  favorite: boolean;
-  id: number;
-  image: string;
-  name: string;
-  rate: number;
-}
-*/

@@ -2,10 +2,11 @@ const popup = document.querySelector(".popup-wrap");
 const open = document.getElementById("open-popup");
 const close = document.getElementById("popup-close");
 
+// открытие модального окна
 const handleOpen = async () => {
   popup.style.zIndex = 5;
   popup.style.opacity = 1;
-
+  // если режим редактирования, заполняем форму данными
   if (editId) {
     const editCat = await getCatById(editId);
     const btn = document.querySelector(".form__btn");
@@ -18,13 +19,13 @@ const handleOpen = async () => {
     });
   }
 }
-
+// закрытие модального окна
 const handleClose = () => {
   setTimeout(() => {
     popup.style.zIndex = -10;
   }, 300)
   popup.style.opacity = 0;
-
+  // отчищаем форму
   const btn = document.querySelector(".form__btn");
   formImg.src = "";
   editId = null;
@@ -38,3 +39,7 @@ const handleClose = () => {
 
 open.addEventListener("click", handleOpen);
 close.addEventListener("click", handleClose);
+
+popup.addEventListener("click", (e) => {
+  if (e.target === popup) handleClose();
+});
