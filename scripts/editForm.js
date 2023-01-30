@@ -15,8 +15,8 @@ form.addEventListener("submit", async (e) => {
     while (ids.indexOf(id) !== -1) {
       id = generateId();
     }
-  } else id = editId;
-  if (excludeIds.includes(+id))
+  } else id = +editId;
+  if (excludeIds.includes(id))
     alert("Данного котика нельзя редактировать!!!")
   else {
     const data = { id };
@@ -26,15 +26,20 @@ form.addEventListener("submit", async (e) => {
       if (input.type === 'checkbox') data[input.name] = input.checked;
     });
 
-    if (editId) await editCat(id, data)
+    if (editId) {
+      await editCat(id, data);
+      const cats = JSON.parse(window.localStorage.getItem("cats"));
+      const catIndex = cats.findIndex((el) => el.id === +id);
+      cats[catIndex] = data;
+      window.localStorage.setItem("cats", JSON.stringify(cats));
+    }
     else await addCat(data);
 
     let catCard = template.content.cloneNode(true);
     if (editId)
       catCard = document.querySelector(`[data-id="${id}"]`).parentElement;
 
-    const cat = await getCatById(id);
-    addCard(catCard, cat, !!editId);
+    addCard(catCard, data, !!editId);
   }
 
   handleClose();

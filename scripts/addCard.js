@@ -34,6 +34,7 @@ const addCard = (component, cat, isEdit) => {
 
 (async function () {
   const cats = await getCats();
+  window.localStorage.setItem("cats", JSON.stringify(cats));
   cats.forEach((cat) => {
     const clone = template.content.cloneNode(true);
     addCard(clone, cat, false);

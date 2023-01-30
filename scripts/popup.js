@@ -2,13 +2,13 @@ const popup = document.querySelector(".popup-wrap");
 const open = document.getElementById("open-popup");
 const close = document.getElementById("popup-close");
 
-// открытие модального окна
 const handleOpen = async () => {
   popup.style.zIndex = 5;
   popup.style.opacity = 1;
-  // если режим редактирования, заполняем форму данными
+
   if (editId) {
-    const editCat = await getCatById(editId);
+    const cats = JSON.parse(window.localStorage.getItem("cats"));
+    const editCat = cats.find((el) => el.id === +editId);
     const btn = document.querySelector(".form__btn");
     btn.innerText = "Изменить данные";
     formImg.src = editCat.image;
@@ -19,13 +19,13 @@ const handleOpen = async () => {
     });
   }
 }
-// закрытие модального окна
+
 const handleClose = () => {
   setTimeout(() => {
     popup.style.zIndex = -10;
   }, 300)
   popup.style.opacity = 0;
-  // отчищаем форму
+
   const btn = document.querySelector(".form__btn");
   formImg.src = "";
   editId = null;
