@@ -17,6 +17,7 @@ const addCard = (component, cat, isEdit) => {
     editId = btn.dataset.id;
     handleOpen();
   })
+
   basket.addEventListener("click", async (e) => {
     e.preventDefault();
     if (!excludeIds.includes(+btn.dataset.id)) {

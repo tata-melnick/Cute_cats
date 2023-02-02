@@ -26,14 +26,17 @@ form.addEventListener("submit", async (e) => {
       if (input.type === 'checkbox') data[input.name] = input.checked;
     });
 
+    const cats = JSON.parse(window.localStorage.getItem("cats"));
     if (editId) {
       await editCat(id, data);
-      const cats = JSON.parse(window.localStorage.getItem("cats"));
       const catIndex = cats.findIndex((el) => el.id === +id);
       cats[catIndex] = data;
       window.localStorage.setItem("cats", JSON.stringify(cats));
     }
-    else await addCat(data);
+    else {
+      await addCat(data);
+      window.localStorage.setItem("cats", JSON.stringify([...cats, data]));
+    }
 
     let catCard = template.content.cloneNode(true);
     if (editId)
